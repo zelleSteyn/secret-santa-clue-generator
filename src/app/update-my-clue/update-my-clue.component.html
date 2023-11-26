@@ -1,0 +1,192 @@
+<mat-vertical-stepper [linear]="false" #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Your current drawn name & clue</ng-template>
+      <mat-card  class="info-card"
+        ><mat-icon class="info-icon">info</mat-icon> &emsp;<span class="info-header">INSTRUCTIONS</span>
+
+        <div class="info-content">If you've HAVE NOT already filled in your recipient's name and clue,
+        click on the button below to generate your clue. <br />If you HAVE
+        filled in your recipient's name and/or clue and you just want to update
+        it, also click on the button below to generate a new poem, or skip to
+        the "Save your clue" section.</div>
+      </mat-card>
+      <br /><br />
+      <mat-form-field
+        *ngIf="clueEntry && clueEntry.drawnName"
+        class="stepper-field"
+      >
+        <mat-label> Your drawn name </mat-label
+        ><input
+          matInput
+          readonly
+          [ngModelOptions]="{ standalone: true }"
+          [(ngModel)]="clueEntry.drawnName"
+        />
+      </mat-form-field>
+      <span
+        *ngIf="!clueEntry || !clueEntry.drawnName"
+        style="color: coral; margin-bottom: 10px"
+        >You haven't specified your recipient yet. You can choose it in the
+        final step.<br /><br
+      /></span>
+
+      <mat-form-field class="stepper-field" *ngIf="clueEntry && clueEntry.clue">
+        <mat-label> Your clue </mat-label>
+        <textarea
+          matInput
+          rows="7"
+          readonly
+          [ngModelOptions]="{ standalone: true }"
+          [(ngModel)]="clueEntry.clue"
+        ></textarea>
+      </mat-form-field>
+      <span
+        *ngIf="!clueEntry || !clueEntry.clue"
+        style="color: coral; margin-bottom: 10px"
+        >You haven't saved your clue poem yet. You can create it in the final
+        step.</span
+      >
+      <div>
+        <button mat-raised-button color="primary" matStepperNext>
+          Create or change my clue
+        </button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Generate your clue</ng-template>
+      <mat-card  class="info-card"
+        ><mat-icon class="info-icon">info</mat-icon> &emsp;<span class="info-header">INSTRUCTIONS</span>
+
+        <div class="info-content">Not everyone's a writer. This year, your clue has to in the format of a
+          short poem of 5 lines or less. It's also the year of "GEN AI", so, what
+          the heck, go ahead and generate one if you like.</div>
+      </mat-card>
+
+      <mat-form-field class="example-full-width" *ngIf="generating == false">
+        <mat-label>Write some facts about yourself.</mat-label>
+        <textarea
+          style="background-color: aliceblue"
+          rows="7"
+          matInput
+          [ngModelOptions]="{ standalone: true }"
+          name="aboutMe"
+          [(ngModel)]="aboutMe"
+          placeholder="Ex: I like shoes, I like comic books, I have a beard"
+        ></textarea>
+      </mat-form-field>
+      <mat-progress-spinner
+        *ngIf="generating == true"
+        class="spinner"
+        [color]="color"
+        [mode]="mode"
+        [value]="value"
+      ></mat-progress-spinner>
+      <div>
+        <button
+          class="step-button"
+          mat-raised-button
+          color="primary"
+          matStepperPrevious
+        >
+          Cancel
+        </button>
+        <button
+          class="step-button"
+          [disabled]="generating == true"
+          mat-raised-button
+          color="primary"
+          (click)="generating = true; generateClue()"
+        >
+          Generate!
+        </button>
+        <button
+          class="step-button"
+          mat-raised-button
+          color="primary"
+          matStepperNext
+        >
+          I'll write it myself.
+        </button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Save your clue</ng-template>
+    <mat-card  class="info-card"
+        ><mat-icon class="info-icon">info</mat-icon> &emsp;<span class="info-header">INSTRUCTIONS</span>
+
+        <div class="info-content">Home stretch! Now, just choose the person who's name you drew (your gift recipient), and tweak/update/author your poem as you wish. Then, save it.</div>
+      </mat-card>
+      <br/><br/>
+    <mat-form-field class="example-full-width">
+      <mat-label>My drawn name</mat-label>
+
+      <input
+        type="text"
+        name="drawnName"
+        [(ngModel)]="drawnName"
+        matInput
+        [formControl]="myControl"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option
+          *ngFor="let option of filteredOptions | async"
+          [value]="option"
+          >{{ option }}</mat-option
+        >
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-progress-spinner
+      *ngIf="generating == true"
+      class="spinner"
+      [color]="color"
+      [mode]="mode"
+      [value]="value"
+    >
+    </mat-progress-spinner>
+    <mat-form-field class="example-full-width" *ngIf="generating == false">
+      <mat-label>My clue</mat-label>
+
+      <textarea
+        rows="7"
+        matInput
+        [ngModelOptions]="{ standalone: true }"
+        name="clue"
+        [(ngModel)]="clue"
+        placeholder="Ex: Coding is my delight. A baby boy's in sight. I'm a girl feeling bright. Who could I be tonight?"
+      ></textarea>
+    </mat-form-field>
+    <div>
+      <button
+        mat-raised-button
+        color="primary"
+        class="step-button"
+        matStepperPrevious
+      >
+        Back
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        class="step-button"
+        (click)="saveClue()"
+      >
+        Save entry
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        class="step-button"
+        (click)="resetClueForm()"
+      >
+        Clear
+      </button>
+    </div>
+  </mat-step>
+</mat-vertical-stepper>
+
+<div style="height: 10vh"></div>

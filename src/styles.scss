@@ -1,0 +1,52 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; margin:1% }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.example-form {
+  min-width: 150px;
+  width: 100%;
+  margin-left:1%;
+}
+.info-icon{
+  font-size: 19px;
+  color: #333;
+}
+.info-header{
+  vertical-align: top;
+        font-size: 13px;
+        font-weight: bold;
+}
+.info-card{
+  background-color: aliceblue;
+  margin-top:20px
+
+}
+.info-content{
+  font-size: 12px;
+}
+.spinner{
+  margin:10px
+}
+.step-button{
+  width:30%;
+  font-size: 12px;
+  margin-right:1% !important
+}
+
+.example-full-width {
+  width: 96%;
+}
+
+.stepper-field {
+  width:100%
+}
+
+.clue-buttons{
+  margin:20px 20px 400px 20px
+}
+
+.clue-card
+{
+  margin:1%;
+  width:98%
+}
