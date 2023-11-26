@@ -28,21 +28,10 @@ export class UpdateMyClueComponent implements OnInit {
 
   options: string[] = [
     'Zelle',
-    'Sanet',
-    'Magderie',
-    'Annike',
-    'Lezaan',
-    'Jaqui',
-    'Daniela',
-    'JB',
-    'DJ',
-    'Brant',
-    'Keith',
-    'Jaco',
-    'Stefany',
-    'Kristina',
-    'Cesc',
-    'Nenad'
+    'Bob',
+    'Amy',
+    'Jeremy',
+    'Jane'
   ];
   filteredOptions!: Observable<string[]>;
   user: any = {};
